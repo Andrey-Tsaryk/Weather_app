@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
 
 void main() => runApp(
       MaterialApp(
@@ -16,6 +14,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  // var temp;
+  // var description;
+  // var currently;
+  // var humidity;
+  // var windSpeed;
+
+  // Future getWeather() async {
+  //   http.Response response = await http.get();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,19 +82,19 @@ class _HomeState extends State<Home> {
                     trailing: Text("27\u00B0"),
                   ),
                   ListTile(
-                    leading: FaIcon(FontAwesomeIcons.thermometerHalf),
-                    title: Text("Temperature"),
-                    trailing: Text("27\u00B0"),
+                    leading: FaIcon(FontAwesomeIcons.cloud),
+                    title: Text("Weather"),
+                    trailing: Text("Weather"),
                   ),
                   ListTile(
-                    leading: FaIcon(FontAwesomeIcons.thermometerHalf),
-                    title: Text("Temperature"),
-                    trailing: Text("27\u00B0"),
+                    leading: FaIcon(FontAwesomeIcons.sun),
+                    title: Text("TemperaHumiditure"),
+                    trailing: Text("12"),
                   ),
                   ListTile(
-                    leading: FaIcon(FontAwesomeIcons.thermometerHalf),
-                    title: Text("Temperature"),
-                    trailing: Text("27\u00B0"),
+                    leading: FaIcon(FontAwesomeIcons.wind),
+                    title: Text("Wind speed"),
+                    trailing: Text("12"),
                   ),
                 ],
               ),
