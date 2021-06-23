@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart';
+import 'dart:convert';
 
 void main() => runApp(
       MaterialApp(
@@ -14,15 +16,32 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // var temp;
-  // var description;
-  // var currently;
-  // var humidity;
-  // var windSpeed;
+  var temp;
+  var description;
+  var currently;
+  var humidity;
+  var windSpeed;
 
-  // Future getWeather() async {
-  //   http.Response response = await http.get();
-  // }
+  // get http => null;
+
+  Future getWeather() async {
+    Response response = await get(
+        "https://api.openweathermap.org/data/2.5/weather?q=Boston&appid=40631db872e13b39bf5065d561d13af3");
+    var results = jsonDecode(response.body);
+    setState(() {
+      this.temp = results["main"]["temp"];
+      this.description = results["weather"][0]["description"];
+      this.currently = results["weather"][0]["main"];
+      this.humidity = results["main"]["humidity"];
+      this.windSpeed = results["wind"]["speed"];
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this.getWeather();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +61,7 @@ class _HomeState extends State<Home> {
                     bottom: 10.0,
                   ),
                   child: Text(
-                    "Currently in Lida",
+                    "Currently in Boston",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 14.0,
@@ -50,7 +69,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 Text(
-                  "27\u00B0",
+                  temp != null ? temp.toString() + "\u00B0" : "Loading",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 40.0,
@@ -61,7 +80,7 @@ class _HomeState extends State<Home> {
                     top: 10.0,
                   ),
                   child: Text(
-                    "Rain",
+                    currently != null ? currently.toString() : "Loadig",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 14.0,
@@ -79,22 +98,27 @@ class _HomeState extends State<Home> {
                   ListTile(
                     leading: FaIcon(FontAwesomeIcons.thermometerHalf),
                     title: Text("Temperature"),
-                    trailing: Text("27\u00B0"),
+                    trailing: Text(
+                        temp != null ? temp.toString() + "\u00B0" : "Loading"),
                   ),
                   ListTile(
                     leading: FaIcon(FontAwesomeIcons.cloud),
                     title: Text("Weather"),
-                    trailing: Text("Weather"),
+                    trailing: Text(description != null
+                        ? description.toString()
+                        : "Loading"),
                   ),
                   ListTile(
                     leading: FaIcon(FontAwesomeIcons.sun),
-                    title: Text("TemperaHumiditure"),
-                    trailing: Text("12"),
+                    title: Text("Humiditure"),
+                    trailing: Text(
+                        humidity != null ? humidity.toString() : "Loading"),
                   ),
                   ListTile(
                     leading: FaIcon(FontAwesomeIcons.wind),
                     title: Text("Wind speed"),
-                    trailing: Text("12"),
+                    trailing: Text(
+                        windSpeed != null ? windSpeed.toString() : "Loading"),
                   ),
                 ],
               ),
